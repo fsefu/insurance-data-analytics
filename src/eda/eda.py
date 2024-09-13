@@ -1,4 +1,3 @@
-# eda.py
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -68,4 +67,43 @@ class EDA:
         plt.show()
 
         self.plot_correlation_matrix()
+
+    # Additional functions
+
+    def parse_dates(self):
+        """Convert date columns to datetime and extract useful features."""
+        self.data['TransactionMonth'] = pd.to_datetime(self.data['TransactionMonth'], errors='coerce')
+        self.data['TransactionYear'] = self.data['TransactionMonth'].dt.year
+        self.data['TransactionMonthOnly'] = self.data['TransactionMonth'].dt.month
+
+    def encode_categorical(self):
+        """Encode categorical features."""
+        categorical_cols = ['LegalType', 'VehicleType', 'CoverType', 'make', 'Model']
+        self.data = pd.get_dummies(self.data, columns=categorical_cols)
+
+    def premium_claim_analysis(self):
+        """Create new features for premium and claims analysis."""
+        self.data['ClaimToPremiumRatio'] = self.data['TotalClaims'] / self.data['TotalPremium']
+        return self.data[['TotalPremium', 'TotalClaims', 'ClaimToPremiumRatio']].describe()
+
+    def group_by_analysis(self, group_column):
+        """Group data by a specific column and calculate mean statistics."""
+        return self.data.groupby(group_column).mean()[['TotalPremium', 'TotalClaims']]
+
+    def sum_insured_analysis(self):
+        """Analyze SumInsured and CustomValueEstimate correlation with TotalPremium."""
+        return self.data[['SumInsured', 'CustomValueEstimate', 'TotalPremium']].corr()
+
+    def filter_outliers(self, column: str):
+        """Filter out outliers based on a column using the IQR method."""
+        Q1 = self.data[column].quantile(0.25)
+        Q3 = self.data[column].quantile(0.75)
+        IQR = Q3 - Q1
+        lower_bound = Q1 - 1.5 * IQR
+        upper_bound = Q3 + 1.5 * IQR
+        return self.data[(self.data[column] >= lower_bound) & (self.data[column] <= upper_bound)]
+
+    def geographic_analysis(self):
+        """Analyze premium trends by geographic columns."""
+        return self.data.groupby('Province')[['TotalPremium', 'TotalClaims']].mean().plot(kind='bar')
 
