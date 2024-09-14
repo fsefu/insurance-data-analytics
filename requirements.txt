@@ -1,7 +1,10 @@
+python-dotenv==1.0.1
 pandas==2.2.2
-numpy==2.1.0
+ipykernel==6.29.5
+ipython
+jupyter==1.0.0
+numpy
 matplotlib==3.9.2
 seaborn==0.13.2
-plotly==5.23.0
-streamlit==1.37.1
-scipy==1.14.1
+scikit-learn==1.5.1
+streamlit==1.38.0
