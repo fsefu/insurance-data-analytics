@@ -18,11 +18,15 @@ class TestEDA(unittest.TestCase):
             'CustomValueEstimate': [12000, 14000, 18000, 16000, 21000],
             'TransactionMonth': ['2024-01-01', '2024-02-01', np.nan, '2024-04-01', '2024-05-01'],
             'Province': ['Western Cape', 'Gauteng', 'KwaZulu-Natal', 'Gauteng', 'Western Cape'],
-            'LegalType': ['Personal', 'Commercial', 'Personal', 'Personal', 'Commercial']
+            'LegalType': ['Personal', 'Commercial', 'Personal', 'Personal', 'Commercial'],
+            'VehicleType': ['Sedan', 'Truck', 'Sedan', 'Truck', 'SUV'],
+            'CoverType': ['Full', 'Third-Party', 'Third-Party', 'Full', 'Third-Party'],
+            'make': ['Toyota', 'Ford', 'Toyota', 'BMW', 'Audi'],
+            'Model': ['Corolla', 'F150', 'Corolla', 'X5', 'A3']
         }
         self.df = pd.DataFrame(data)
         self.eda = EDA(self.df)
-    
+
     def test_data_summary(self):
         """Test the data_summary method."""
         summary = self.eda.data_summary()
