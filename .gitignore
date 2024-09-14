@@ -29,7 +29,8 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
-data
+data/*
+!data/*.dvc
 storage
 
 # PyInstaller
