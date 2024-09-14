@@ -1,12 +1,13 @@
 name: Python EDA CI
 
-on: 
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+
+on:
+    push:
+      branches:
+        - task-1
+    pull_request:
+      branches:
+        - main
 
 jobs:
   build:
