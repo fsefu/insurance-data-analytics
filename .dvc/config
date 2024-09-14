@@ -1,0 +1,4 @@
+[core]
+    remote = localstorage
+['remote "localstorage"']
+    url = D:/tutorial/10x/tasks/task_3/insurance-data-analytics/storage
