@@ -14,9 +14,6 @@ class EDA:
         """Check the structure of the dataset."""
         return self.data.dtypes
 
-    # def check_missing_values(self):
-    #     """Check for missing values in the dataset."""
-    #     return self.data.isnull().sum()
     def check_missing_values(self):
         """Check for missing values and display them in percentage and tabular form."""
         # Calculate total missing values
@@ -43,9 +40,29 @@ class EDA:
         else:
             return self.data[column].hist()
 
-    def bivariate_analysis(self, col1: str, col2: str):
-        """Perform bivariate analysis between two columns."""
-        return sns.scatterplot(x=self.data[col1], y=self.data[col2])
+    def bivariate_analysis(self, col1: str, col2: str, hue: str = 'PostalCode'):
+        """
+        Perform bivariate analysis between two columns (e.g., TotalPremium and TotalClaims), 
+        with an optional categorical column (e.g., PostalCode) to color or facet the scatter plot.
+        """
+        # Calculate monthly changes for col1 and col2
+        self.data['MonthlyChange_' + col1] = self.data.groupby('TransactionMonth')[col1].diff()
+        self.data['MonthlyChange_' + col2] = self.data.groupby('TransactionMonth')[col2].diff()
+        
+        # Plotting the scatter plot
+        plt.figure(figsize=(10, 6))
+        sns.scatterplot(
+            data=self.data,  # Pass the DataFrame here
+            x='MonthlyChange_' + col1, 
+            y='MonthlyChange_' + col2, 
+            hue=hue,  # Coloring by PostalCode or any other categorical column
+            palette='coolwarm'
+        )
+        plt.title(f"Monthly Changes in {col1} vs {col2} by {hue}")
+        plt.xlabel(f"Monthly Change in {col1}")
+        plt.ylabel(f"Monthly Change in {col2}")
+        plt.show()
+
 
     def correlation_matrix(self):
         """

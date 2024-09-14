@@ -26,9 +26,14 @@ class TestEDA(unittest.TestCase):
     def test_data_summary(self):
         """Test the data_summary method."""
         summary = self.eda.data_summary()
-        self.assertEqual(summary.shape[0], 5)
+        
+        # Check that the summary has 8 rows (for 8 statistics)
+        self.assertEqual(summary.shape[0], 8)
+        
+        # Check that the relevant columns are present
         self.assertIn('TotalPremium', summary.columns)
-    
+        self.assertIn('TotalClaims', summary.columns)
+
     def test_data_structure(self):
         """Test the data_structure method."""
         structure = self.eda.data_structure()
