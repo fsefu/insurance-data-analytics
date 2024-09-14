@@ -30,6 +30,7 @@ share/python-wheels/
 *.egg
 MANIFEST
 data
+storage
 
 # PyInstaller
 *.manifest
@@ -89,6 +90,7 @@ ipython_config.py
 # Environments
 .env
 .venv
+.winenv
 env/
 venv/
 ENV/
