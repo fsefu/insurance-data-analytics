@@ -14,9 +14,27 @@ class EDA:
         """Check the structure of the dataset."""
         return self.data.dtypes
 
+    # def check_missing_values(self):
+    #     """Check for missing values in the dataset."""
+    #     return self.data.isnull().sum()
     def check_missing_values(self):
-        """Check for missing values in the dataset."""
-        return self.data.isnull().sum()
+        """Check for missing values and display them in percentage and tabular form."""
+        # Calculate total missing values
+        missing_values = self.data.isnull().sum()
+        
+        # Calculate percentage of missing values
+        missing_percentage = (missing_values / len(self.data)) * 100
+        
+        # Create a DataFrame to display both the count and percentage of missing values
+        missing_data = pd.DataFrame({
+            'Missing Values': missing_values,
+            'Percentage': missing_percentage
+        })
+        
+        # Filter columns with missing values greater than 0
+        missing_data = missing_data[missing_data['Missing Values'] > 0].sort_values(by='Percentage', ascending=False)
+        
+        return missing_data
 
     def univariate_analysis(self, column: str):
         """Perform univariate analysis on a given column."""
@@ -87,8 +105,29 @@ class EDA:
         return self.data[['TotalPremium', 'TotalClaims', 'ClaimToPremiumRatio']].describe()
 
     def group_by_analysis(self, group_column):
-        """Group data by a specific column and calculate mean statistics."""
-        return self.data.groupby(group_column).mean()[['TotalPremium', 'TotalClaims']]
+        """Group data by a specific column and calculate mean statistics for numeric columns."""
+        # Check if the column exists or was one-hot encoded
+        original_col = group_column
+        if group_column not in self.data.columns:
+            # Check for one-hot encoded versions of the column
+            encoded_cols = [col for col in self.data.columns if col.startswith(group_column + '_')]
+            if len(encoded_cols) == 0:
+                raise KeyError(f"Column '{original_col}' not found in the dataset, and no one-hot encoded version is available.")
+            else:
+                group_column = encoded_cols  # Use the one-hot encoded columns for grouping
+
+        # Select numeric columns only
+        numeric_cols = self.data.select_dtypes(include='number').columns
+
+        # Perform group by operation
+        try:
+            if isinstance(group_column, list):  # Handling one-hot encoded columns
+                return self.data.groupby(group_column)[numeric_cols].mean()
+            else:
+                return self.data.groupby(group_column)[numeric_cols].mean()
+        except KeyError as e:
+            raise KeyError(f"Grouping or mean calculation failed. Error: {str(e)}")
+
 
     def sum_insured_analysis(self):
         """Analyze SumInsured and CustomValueEstimate correlation with TotalPremium."""
