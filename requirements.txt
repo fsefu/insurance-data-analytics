@@ -1,13 +1,28 @@
-python-dotenv==1.0.1
-pandas==2.2.2
-ipykernel==6.29.5
+# python-dotenv==1.0.1
+# pandas==2.2.2
+# ipykernel==6.29.5
+# ipython
+# jupyter==1.0.0
+# numpy
+# matplotlib==3.9.2
+# seaborn==0.13.2
+# scikit-learn==1.5.1
+# streamlit==1.38.0
+# lime==0.2.0.1
+# xgboost==2.1.1
+# shap==0.46.0
+
+
+python-dotenv
+pandas
+ipykernel
 ipython
-jupyter==1.0.0
+jupyter
 numpy
-matplotlib==3.9.2
-seaborn==0.13.2
-scikit-learn==1.5.1
-streamlit==1.38.0
-lime==0.2.0.1
-xgboost==2.1.1
-shap==0.46.0
+matplotlib
+seaborn
+scikit-learn
+streamlit
+lime
+xgboost
+shap
