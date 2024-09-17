@@ -1,10 +1,10 @@
-name: Python EDA CI
+name: Python Ab_Testing CI
 
 
 on:
     push:
       branches:
-        - task-1
+        - task-3
     pull_request:
       branches:
         - main
